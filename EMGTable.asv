@@ -1,0 +1,29 @@
+daysOfExperiment = 2;
+firstSubject = 3;
+lastSubject = 13;
+numberOfSubjects = 10;
+numOfGestures = 7;
+
+% Initialize table as a 3D cell array with an extra dimension for subjects
+table = cell(numberOfSubjects, daysOfExperiment, numOfGestures);
+typeOfRepetitions = ["repeat_short", "repeat_long"];
+numTypesOfExperiment = length(typeOfRepetitions);
+
+for subjectIdx = 1:numberOfSubjects
+    subjectNumber = firstSubject + subjectIdx - 1; % Map to actual subject number
+    for day = 1:daysOfExperiment
+        for type = 1:numTypesOfExperiment
+            filePath = "/Users/chrisdollo/Desktop/putEMG/Dataset/sub_" + string(subjectNumber) + ...
+                       "/sub_" + string(subjectNumber) + "_" + typeOfRepetitions(type) + "_r" + string(day) + ".mat";
+            subjectGestures = getRepeatValues(filePath);
+
+            % Store subject gestures in the table at the correct index
+            table{subjectIdx, day, type} = subjectGestures;
+        end
+    end
+end
+
+% sample=table(1:3,:)
+% save('handGestures.mat', 'table', '-v7.3');
+% save('handGesturesSample3.mat', 'table', '-v7.3');
+% save('my_large_data.mat', 'T', '-v7.3');
